@@ -31,12 +31,16 @@ public class EventInterceptor implements Listener{
         this.playersExemptedFromNextFall = new HashSet<>();
     }
     
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
         this.dHandler.writeUUIDWithValue("playerData", player, player.isFlying());
+        if(player.isFlying()){
+            player.getServer().getLogger().info("Player(name: " + player.getName() +
+                    ", UUID: " + player.getUniqueId() + ") had been flying!");
+        }
     }
-    
+
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
