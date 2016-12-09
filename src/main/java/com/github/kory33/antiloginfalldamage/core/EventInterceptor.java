@@ -34,10 +34,18 @@ public class EventInterceptor implements Listener{
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
+        
+        boolean isFlying = player.isFlying();
+        if(this.playersExemptedFromNextFall.contains(player)){
+            isFlying = true;
+            this.playersExemptedFromNextFall.remove(player);
+        }
+        
         this.dHandler.writeUUIDWithValue("playerData", player, player.isFlying());
-        if(player.isFlying()){
+
+        if(isFlying){
             player.getServer().getLogger().info("Player(name: " + player.getName() +
-                    ", UUID: " + player.getUniqueId() + ") had been flying!");
+                    ", UUID: " + player.getUniqueId() + ") will be exempted from next fall damage.");
         }
     }
 
