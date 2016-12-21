@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.kory33.antiloginfalldamage.data.DataHandler;
+import com.github.kory33.updatenotificationplugin.bukkit.github.GithubUpdateNotifyPlugin;
 
-public class AntiLoginFallDamage extends JavaPlugin {
+public class AntiLoginFallDamage extends GithubUpdateNotifyPlugin {
     private DataHandler dHandler;
     private ArrayList<Listener> eventInterceptors;
     
@@ -36,4 +36,9 @@ public class AntiLoginFallDamage extends JavaPlugin {
         
         this.getLogger().info("Unloaded/unregistered MinecartChestFilter successfully.");
     }
+
+	@Override
+	public String getGithubRepository() {
+		return "Kory33/AntiLoginFallDamage";
+	}
 }
