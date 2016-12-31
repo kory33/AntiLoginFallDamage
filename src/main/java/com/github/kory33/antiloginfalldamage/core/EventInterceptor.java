@@ -1,8 +1,5 @@
 package com.github.kory33.antiloginfalldamage.core;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,17 +15,16 @@ import com.github.kory33.antiloginfalldamage.data.DataHandler;
 
 public class EventInterceptor implements Listener{
     private DataHandler dHandler;
-    private Set<Player> playersExemptedFromNextFall;
-    
+    private FallDamageExemptor fDamageExemptor;
     
     public EventInterceptor(JavaPlugin plugin, DataHandler dHandler) {
-        PluginManager pManager = plugin.getServer().getPluginManager();
+    	this.fDamageExemptor = new FallDamageExemptor(plugin);
+        this.dHandler = dHandler;
+
+    	PluginManager pManager = plugin.getServer().getPluginManager();
         pManager.registerEvents(this, plugin);
         
         plugin.getServer().getLogger().info("Registered core interceptors");
-        
-        this.dHandler = dHandler;
-        this.playersExemptedFromNextFall = new HashSet<>();
     }
     
     @EventHandler(priority = EventPriority.LOWEST)
@@ -36,9 +32,9 @@ public class EventInterceptor implements Listener{
         Player player = event.getPlayer();
         
         boolean isFlying = player.isFlying();
-        if(this.playersExemptedFromNextFall.contains(player)){
+        if(this.fDamageExemptor.isPlayerInSet(player)){
             isFlying = true;
-            this.playersExemptedFromNextFall.remove(player);
+            this.fDamageExemptor.addPlayer(player);
         }
         
         this.dHandler.writeUUIDWithValue("playerData", player, player.isFlying());
@@ -57,7 +53,7 @@ public class EventInterceptor implements Listener{
         }
         
         if((boolean)this.dHandler.readUUID("playerData", player)){
-            this.playersExemptedFromNextFall.add(player);
+            this.fDamageExemptor.addPlayer(player);
         }
         return;
     }
@@ -69,9 +65,13 @@ public class EventInterceptor implements Listener{
         }
         
         Player player = (Player) event.getEntity();
-        if(event.getCause() == DamageCause.FALL && this.playersExemptedFromNextFall.contains(player)){
+        if(event.getCause() == DamageCause.FALL && this.fDamageExemptor.isPlayerInSet(player)){
             event.setCancelled(true);
-            this.playersExemptedFromNextFall.remove(player);
+            this.fDamageExemptor.removePlayer(player);
         }
+    }
+    
+    public void stopMonitoring() {
+    	this.fDamageExemptor.stop();
     }
 }
