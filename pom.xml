@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.Kory33</groupId>
     <artifactId>AntiLoginFallDamage</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <name>AntiLoginFallDamage</name>
     <description>Prevents player from damage in case the player had been flying.</description>
     <repositories>
