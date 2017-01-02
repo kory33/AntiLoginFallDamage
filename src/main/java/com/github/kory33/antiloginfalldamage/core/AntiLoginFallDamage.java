@@ -13,6 +13,8 @@ public class AntiLoginFallDamage extends GithubUpdateNotifyPlugin {
     
     @Override
     public void onEnable(){
+    	super.onEnable();
+    	
         // initialize config.yml
         if(!(new File("config.yml").exists())){
             saveResource("config.yml", false);
@@ -26,14 +28,16 @@ public class AntiLoginFallDamage extends GithubUpdateNotifyPlugin {
     
     @Override
     public void onDisable(){
+    	super.onDisable();
+    	
     	this.eInterceptor.stopMonitoring();
     	HandlerList.unregisterAll(this.eInterceptor);
         
         this.getLogger().info("Unloaded/unregistered MinecartChestFilter successfully.");
     }
 
-	@Override
-	public String getGithubRepository() {
-		return "Kory33/AntiLoginFallDamage";
-	}
+    @Override
+    public String getGithubRepository() {
+        return "Kory33/AntiLoginFallDamage";
+    }
 }
