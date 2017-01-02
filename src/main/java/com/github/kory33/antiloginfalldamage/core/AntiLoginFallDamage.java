@@ -13,7 +13,7 @@ public class AntiLoginFallDamage extends GithubUpdateNotifyPlugin {
     
     @Override
     public void onEnable(){
-    	super.onEnable();
+        super.onEnable();
     	
         // initialize config.yml
         if(!(new File("config.yml").exists())){
@@ -28,7 +28,7 @@ public class AntiLoginFallDamage extends GithubUpdateNotifyPlugin {
     
     @Override
     public void onDisable(){
-    	super.onDisable();
+        super.onDisable();
     	
     	this.eInterceptor.stopMonitoring();
     	HandlerList.unregisterAll(this.eInterceptor);
