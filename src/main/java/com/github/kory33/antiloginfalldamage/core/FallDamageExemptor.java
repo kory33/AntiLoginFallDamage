@@ -1,6 +1,7 @@
 package com.github.kory33.antiloginfalldamage.core;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.bukkit.entity.Player;
@@ -42,9 +43,11 @@ public class FallDamageExemptor implements Runnable{
 			return;
 		}
 		
-		for (Player player: this.players) {
+		Iterator<Player> playerIter = this.players.iterator();
+		while (playerIter.hasNext()) {
+			Player player = playerIter.next();
 			if(player.getVelocity().getY() >= 0.0) {
-				this.players.remove(player);
+				playerIter.remove();
 			}
 		}
 		
