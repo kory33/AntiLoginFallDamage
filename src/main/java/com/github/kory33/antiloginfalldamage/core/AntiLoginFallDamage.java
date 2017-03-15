@@ -16,7 +16,7 @@ public class AntiLoginFallDamage extends GithubUpdateNotifyPlugin {
         super.onEnable();
     	
         // initialize config.yml
-        if(!(new File("config.yml").exists())){
+        if(!(new File(this.getDataFolder(), "config.yml").exists())){
             saveResource("config.yml", false);
         }
         
